@@ -1,0 +1,10 @@
+Etape 1 :
+Ajouter un canvas dans index.html contenant l'aiguille de l'accordeur.
+
+Etape 2 :
+Varier la couleur de l'ailguille (vert/orange/rouge) en fonction de l'écart entre la fréquence parfaite de la note et la fréquence donnée.
+
+Etape 3 :
+Ajouter un canvas dans index.html contenant 1 diode qui change de couleur comme l'aiguille pour tester. Puis le régler de la manière suivant : reste en gris tant que la note n'est pas juste ou ne détecte pas d'émission de fréquence, sinon s'allume en vert. 
+
+Etape 4 : 
