@@ -5,6 +5,16 @@ Etape 2 :
 Varier la couleur de l'ailguille (vert/orange/rouge) en fonction de l'écart entre la fréquence parfaite de la note et la fréquence donnée.
 
 Etape 3 :
-Ajouter un canvas dans index.html contenant 1 diode qui change de couleur comme l'aiguille pour tester. Puis le régler de la manière suivant : reste en gris tant que la note n'est pas juste ou ne détecte pas d'émission de fréquence, sinon s'allume en vert. 
+Ajouter un canvas dans index.html contenant 1 diode au centre qui change de couleur comme l'aiguille pour tester. Puis le régler de la manière suivant : reste en gris tant que la note n'est pas juste ou ne détecte pas d'émission de fréquence, sinon s'allume en vert. 
 
 Etape 4 : 
+Dans le canvas Diode ajouter 2 autres diodes de chaque côtés qui fonctionnent de la manière suivante :
+- à gauche si la fréquence émise est d'une fréquence inférieure à celle de la note reconnue, s'allume en orange si l'écart est "légé" ou en rouge s'il y a en a trop
+- pareil, si la fréquence émis est supérieure à celle de la note reconnue
+
+Etape 5 :
+Assembler les 3 canvas en un et insérer dans une maquette d'accordeur.
+
+Etape 6 :
+Ajouter des options guitare/basse/violon pour cibler un tableau de notes précises. 
+
