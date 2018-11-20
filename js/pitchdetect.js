@@ -50,8 +50,10 @@ var detectorElem,
 	pitchElem,
 	noteElem,
 	detuneElem,
-	detuneAmount
-	sliderFrequency;
+	detuneAmount,
+	sliderFrequency,
+	canvastest,
+	outputtest;
 
 var rafID = null;
 var buflen = 1024;
@@ -76,7 +78,8 @@ window.onload = function() {
 	detuneElem = document.getElementById( "detune" );
 	detuneAmount = document.getElementById( "detune_amt" );
 	sliderFrequency = document.getElementById("sliderFrequency");
-
+	canvastest = document.getElementById("aiguille");
+	outputtest = canvastest.getContext('2d');
 	//Initialisation du Tuner
 	detectorElem.ondragenter = function () { 
 		this.classList.add("droptarget"); 
@@ -87,6 +90,7 @@ window.onload = function() {
   		e.preventDefault();
 		theBuffer = null;
 	};
+	inittrait(outputtest);
 }
 
 //Fonction qui s'occupe de la partie son et de la modification de sa fréquence
@@ -107,7 +111,7 @@ function toggleOscillator() {
 	sourceNode = audioContext.createOscillator();
 	//Slider permettant de changer la fréquence du son
 	sliderFrequency.addEventListener('input', function(e){
-		console.log("Frequence = " + e.target.value + "Hz");
+		//console.log("Frequence = " + e.target.value + "Hz");
 		sourceNode.frequency.setValueAtTime(e.target.value, audioContext.currentTime);
 	});
 	//On attribue d'autres paramètres au son et on le joue
@@ -195,6 +199,20 @@ function autoCorrelate( buf, sampleRate ) {
 //	var best_frequency = sampleRate/best_offset;
 }
 
+function inittrait(ctx)
+{
+	ctx.translate(300/2, 200-85);
+    ctx.rotate(0);
+	
+	ctx.strokeStyle = "rgb(70, 70, 70)";
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -100);
+    ctx.stroke();
+}
+
+
 //Fonction qui va gérer l'affichage des fonctionnalités montrés précedemment
 function updatePitch() {
 	analyser.getFloatTimeDomainData( buf );
@@ -232,6 +250,7 @@ function updatePitch() {
 			detuneAmount.innerHTML = Math.abs( detune );
 		}
 	}
+
 	// Gestion bug de la partie graphique
 	if (!window.requestAnimationFrame)
 		window.requestAnimationFrame = window.webkitRequestAnimationFrame;
