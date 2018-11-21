@@ -52,8 +52,10 @@ var detectorElem,
 	detuneElem,
 	detuneAmount,
 	sliderFrequency,
-	canvastest,
-	outputtest;
+	canvasaig,
+	canvasdio,
+	outputtestA,
+	outputtestD;
 
 var rafID = null;
 var buflen = 1024;
@@ -78,8 +80,8 @@ window.onload = function() {
 	detuneElem = document.getElementById( "detune" );
 	detuneAmount = document.getElementById( "detune_amt" );
 	sliderFrequency = document.getElementById("sliderFrequency");
-	canvastest = document.getElementById("aiguille");
-	outputtest = canvastest.getContext('2d');
+	canvasaig = document.getElementById("aiguille");
+	canvasdio = document.getElementById("diiode");
 	//Initialisation du Tuner
 	detectorElem.ondragenter = function () { 
 		this.classList.add("droptarget"); 
@@ -90,7 +92,6 @@ window.onload = function() {
   		e.preventDefault();
 		theBuffer = null;
 	};
-	inittrait(outputtest);
 }
 
 //Fonction qui s'occupe de la partie son et de la modification de sa fréquence
@@ -198,25 +199,15 @@ function autoCorrelate( buf, sampleRate ) {
 	return -1;
 //	var best_frequency = sampleRate/best_offset;
 }
-
-function inittrait(ctx)
-{
-	ctx.translate(300/2, 200-85);
-    ctx.rotate(0);
-	
-	ctx.strokeStyle = "rgb(70, 70, 70)";
-    ctx.lineWidth=2;
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, -100);
-    ctx.stroke();
-}
-
-
 //Fonction qui va gérer l'affichage des fonctionnalités montrés précedemment
 function updatePitch() {
 	analyser.getFloatTimeDomainData( buf );
 	var ac = autoCorrelate( buf, audioContext.sampleRate );
+
+	outputA = canvasaig.getContext('2d');
+	outputD = canvasdio.getContext('2d');
+	inittrait(outputA);
+	initdiiode(outputD,ac);
 
 	//S'il n'y a pas de son qui se joue
  	if (ac == -1) {
@@ -255,4 +246,43 @@ function updatePitch() {
 	if (!window.requestAnimationFrame)
 		window.requestAnimationFrame = window.webkitRequestAnimationFrame;
 	rafID = window.requestAnimationFrame( updatePitch );
+}
+
+function initdiiode(ctx,pitch)
+{
+	ctx.save();
+	note =  noteFromPitch( pitch );
+	var ecart = Math.abs(centsOffFromPitch(pitch, note));
+	//console.log(ecart);
+	ctx.fillStyle="rgb(70, 70, 70)";
+	if(ecart<=2)
+	{
+		ctx.fillStyle="rgb(0, 150, 0)";
+	}
+	else if(ecart<=15)
+	{
+		ctx.fillStyle="rgb(255, 102, 0)";
+	}
+	else
+	{
+		ctx.fillStyle="rgb(200,0,0)";
+	}
+	ctx.beginPath();
+  	ctx.arc(150, 100, 70, 0, 2 * Math.PI);
+  	ctx.fill();
+  	ctx.restore();
+}
+
+function inittrait(ctx)
+{
+	ctx.save();
+	ctx.translate(150, 200-85);
+    ctx.rotate(0);
+	ctx.strokeStyle = "rgb(70, 70, 70)";
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -100);
+    ctx.stroke();
+    ctx.restore();
 }
