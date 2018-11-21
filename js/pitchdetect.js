@@ -52,10 +52,14 @@ var detectorElem,
 	detuneElem,
 	detuneAmount,
 	sliderFrequency,
-	canvasaig,
+// Séparation de l'aiguille et de la diode dans différents canvas	
+	canvasaig, 
 	canvasdio,
-	outputtestA,
+	outputA,
 	outputtestD;
+
+var Angle = 0; //initialisation de l'angle de l'aiguille
+
 
 var rafID = null;
 var buflen = 1024;
@@ -80,9 +84,21 @@ window.onload = function() {
 	detuneElem = document.getElementById( "detune" );
 	detuneAmount = document.getElementById( "detune_amt" );
 	sliderFrequency = document.getElementById("sliderFrequency");
+	//canvas aiguille
 	canvasaig = document.getElementById("aiguille");
+	wA = document.getElementById("aiguille").offsetWidth;
+	hA = document.getElementById("aiguille").offsetHeight;
+	outputA = canvasA.getContext('2d');
+	inittrait(outputA, Angle);
+	//canvas diode
 	canvasdio = document.getElementById("diiode");
+
+	
+	outputA = canvasaig.getContext('2d');
+
+	
 	//Initialisation du Tuner
+
 	detectorElem.ondragenter = function () { 
 		this.classList.add("droptarget"); 
 		return false; };
@@ -203,10 +219,11 @@ function autoCorrelate( buf, sampleRate ) {
 function updatePitch() {
 	analyser.getFloatTimeDomainData( buf );
 	var ac = autoCorrelate( buf, audioContext.sampleRate );
-
-	outputA = canvasaig.getContext('2d');
+	
+	var newAngle = angle_frequence(ac); // variable qui changera en fonction de la fréquence
+	inittrait(outputA, newAngle);
+	
 	outputD = canvasdio.getContext('2d');
-	inittrait(outputA);
 	initdiiode(outputD,ac);
 
 	//S'il n'y a pas de son qui se joue
@@ -273,11 +290,11 @@ function initdiiode(ctx,pitch)
   	ctx.restore();
 }
 
-function inittrait(ctx)
+function inittrait(ctx, A) // A l'angle défini par angle_fréquence(f)
 {
 	ctx.save();
-	ctx.translate(150, 200-85);
-    ctx.rotate(0);
+	ctx.translate(wA/2, hA-85);
+    ctx.rotate(A);
 	ctx.strokeStyle = "rgb(70, 70, 70)";
     ctx.lineWidth=2;
     ctx.beginPath();
@@ -285,4 +302,46 @@ function inittrait(ctx)
     ctx.lineTo(0, -100);
     ctx.stroke();
     ctx.restore();
+}
+
+function angle_frequence(f){ // variation de l'angle en fonction de la fréquence émise
+	var note = noteFromPitch(f);
+	var cents = centsOffFromPitch(f,note);
+	var ref_freq = frequencyFromNoteNumber(note);
+	var cnorm;
+	if (f < ref_freq){
+		cnorm = map(cents, -50, 0, 1, 0.1);
+		cnorm = mapLinearToLog(cnorm, 0.1, 1, 0.1, 1);
+		Angle =  map(cnorm, 1, 0.1, -Math.PI/2+0.2, 0); //angle
+		return Angle;
+	} else {
+		cnorm = map(cents, 0, 50, 0.1, 1);
+    	cnorm = mapLinearToLog(cnorm, 0.1, 1, 0.1, 1);
+    	Angle =  map(cnorm, 0.1, 1, 0, Math.PI/2-0.2); //angle
+		return Angle;
+	}
+}
+
+// maps a value from [istart, istop] into [ostart, ostop]
+function map(value, istart, istop, ostart, ostop) {
+    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+}
+
+// passage echelle linéaire -> echelle logarithmique
+function mapLinearToLog(x, istart, istop, ostart, ostop) {
+   // sliderValue is in [0, 10] range, adjust to [0, 1500] range  
+        var value = x;
+        var minp = istart;
+        var maxp = istop;
+
+        // The result should be between 10 an 1500
+        var minv = Math.log(ostart);
+        var maxv = Math.log(ostop);
+
+        // calculate adjustment factor
+        var scale = (maxv - minv) / (maxp - minp);
+
+        value = Math.exp(minv + scale * (value - minp));
+        // end of logarithmic adjustment
+  return value;
 }
