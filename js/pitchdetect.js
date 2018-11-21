@@ -276,7 +276,7 @@ function initdiiode(ctx,pitch)
 function inittrait(ctx)
 {
 	ctx.save();
-	ctx.translate(150, 200-85);
+	ctx.translate(150, 200-35);
     ctx.rotate(0);
 	ctx.strokeStyle = "rgb(70, 70, 70)";
     ctx.lineWidth=2;
