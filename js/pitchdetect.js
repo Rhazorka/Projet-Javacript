@@ -293,8 +293,13 @@ function initdiiode(ctx,pitch)
 function inittrait(ctx, A) // A l'angle défini par angle_fréquence(f)
 {
 	ctx.save();
+<<<<<<< HEAD
 	ctx.translate(wA/2, hA-85);
     ctx.rotate(A);
+=======
+	ctx.translate(150, 200-35);
+    ctx.rotate(0);
+>>>>>>> f202372558c3db689b35add3073703f249f96277
 	ctx.strokeStyle = "rgb(70, 70, 70)";
     ctx.lineWidth=2;
     ctx.beginPath();
