@@ -88,7 +88,7 @@ window.onload = function() {
 	canvasaig = document.getElementById("aiguille");
 	wA = document.getElementById("aiguille").offsetWidth;
 	hA = document.getElementById("aiguille").offsetHeight;
-	outputA = canvasA.getContext('2d');
+	outputA = canvasaig.getContext('2d');
 	inittrait(outputA, Angle);
 	//canvas diode
 	canvasdio = document.getElementById("diiode");
@@ -221,6 +221,7 @@ function updatePitch() {
 	var ac = autoCorrelate( buf, audioContext.sampleRate );
 	
 	var newAngle = angle_frequence(ac); // variable qui changera en fonction de la fréquence
+	outputA.clearRect(0,0,wA,hA); // pour effacer l'aiguille quand elle bouge (animation)
 	inittrait(outputA, newAngle);
 	
 	outputD = canvasdio.getContext('2d');
@@ -293,13 +294,9 @@ function initdiiode(ctx,pitch)
 function inittrait(ctx, A) // A l'angle défini par angle_fréquence(f)
 {
 	ctx.save();
-<<<<<<< HEAD
 	ctx.translate(wA/2, hA-85);
     ctx.rotate(A);
-=======
-	ctx.translate(150, 200-35);
-    ctx.rotate(0);
->>>>>>> f202372558c3db689b35add3073703f249f96277
+
 	ctx.strokeStyle = "rgb(70, 70, 70)";
     ctx.lineWidth=2;
     ctx.beginPath();
