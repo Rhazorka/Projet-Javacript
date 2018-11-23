@@ -56,7 +56,7 @@ var detectorElem,
 	canvasaig,
 	canvasdio,
 	outputA,
-	outputtestD;
+	outputD;
 
 var Angle = 0; //initialisation de l'angle de l'aiguille
 
@@ -92,9 +92,9 @@ window.onload = function () {
 	inittrait(outputA, Angle);
 	//canvas diode
 	canvasdio = document.getElementById("diiode");
-
-
-	outputA = canvasaig.getContext('2d');
+	outputD = canvasdio.getContext('2d');
+	initdiiode(outputD);
+	//outputA = canvasaig.getContext('2d');
 
 
 	//Initialisation du Tuner
@@ -262,6 +262,7 @@ function updatePitch() {
 				detuneElem.className = "sharp";
 			detuneAmount.innerHTML = Math.abs(detune);
 		}
+		Modifdio(outputD,detune,detuneElem.className);
 	}
 
 	// Gestion bug de la partie graphique
@@ -270,23 +271,82 @@ function updatePitch() {
 	rafID = window.requestAnimationFrame(updatePitch);
 }
 
-function initdiiode(ctx, pitch) {
+function initdiiode(ctx) // ctx context du canvas des diiode
+{
+	ctx.fillStyle="rgb(70, 70, 70)";
+	ctx.beginPath();
+  	ctx.arc(150, 100, 20, 0, 2 * Math.PI);
+  	ctx.arc(100, 100, 20, 0, 2 * Math.PI);
+  	ctx.arc(200, 100, 20, 0, 2 * Math.PI);
+  	ctx.fill();
+  	ctx.restore();
+}
+
+function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et celle de la note reconnu 
+								  //et side contient une chaine de caractère pour savoir de quel côté allumé la diiode
+								  //flat: à gauche  sharp:à gauhche  "": au centre  
+{
 	ctx.save();
-	note = noteFromPitch(pitch);
-	var ecart = Math.abs(centsOffFromPitch(pitch, note));
-	//console.log(ecart);
-	ctx.fillStyle = "rgb(70, 70, 70)";
-	if (ecart <= 2) {
-		ctx.fillStyle = "rgb(0, 150, 0)";
-	} else if (ecart <= 15) {
-		ctx.fillStyle = "rgb(255, 102, 0)";
-	} else {
-		ctx.fillStyle = "rgb(200,0,0)";
+	ctx.clearRect(0,0,300,200);
+	if(side=="flat")
+	{
+		if(ecart>=-15)
+		{
+			ctx.fillStyle="rgb(0, 150, 0)";
+		}
+		else if(ecart>=-35)
+		{
+			ctx.fillStyle="rgb(255, 102, 0)";
+		}
+		else if(ecart<=-35)
+		{
+			ctx.fillStyle="rgb(200,0,0)";
+		}
+		
+	}
+	else
+	{
+		ctx.fillStyle="rgb(70, 70, 70)";
 	}
 	ctx.beginPath();
-	ctx.arc(150, 100, 70, 0, 2 * Math.PI);
+	ctx.arc(100, 100, 20, 0, 2 * Math.PI);
 	ctx.fill();
-	ctx.restore();
+	
+	if(side=="sharp")
+	{
+		if(ecart<=15)
+		{
+			ctx.fillStyle="rgb(0, 150, 0)";
+		}
+		else if(ecart<=35)
+		{
+			ctx.fillStyle="rgb(255, 102, 0)";
+		}
+		else if(ecart>=35)
+		{
+			ctx.fillStyle="rgb(200,0,0)";
+		}
+	}
+	else
+	{
+		ctx.fillStyle="rgb(70, 70, 70)";
+	}
+	ctx.beginPath();
+	ctx.arc(200, 100, 20, 0, 2 * Math.PI);
+	ctx.fill();
+  	
+  	if(side=="")//ecart>=-1 || ecart<=1
+  	{	
+  		ctx.fillStyle="rgb(0, 230, 0)"
+  	}
+  	else
+  	{
+  		ctx.fillStyle="rgb(70, 70, 70)";
+  	}
+	ctx.beginPath();
+	ctx.arc(150, 100, 20, 0, 2 * Math.PI);
+	ctx.fill();
+  	ctx.restore();
 }
 
 function inittrait(ctx, A) // A l'angle défini par angle_fréquence(f)
