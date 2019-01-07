@@ -8,10 +8,75 @@ function inittrait(ctx, A) // A l'angle défini par angle_fréquence(f)
 	ctx.lineWidth = 2;
 	ctx.beginPath();
 	ctx.moveTo(0, 0);
-	ctx.lineTo(0, -100);
+	ctx.lineTo(0, -80);
 	ctx.stroke();
 	ctx.restore();
 }
+
+function background(ctx) {
+	ctx.save();
+	ctx.translate(wA / 2, hA - 85);
+
+	ctx.strokeStyle = "rgb(255, 0, 0)";
+	ctx.lineWidth = 2;
+	ctx.beginPath();
+	ctx.moveTo(0, -hA / 3 - 15);
+	ctx.lineTo(0, -hA / 3 - 30);
+	ctx.stroke();
+
+	var mesure = -50;
+	var cnorm;
+	var Angle = 0;
+	while (mesure < 40) {
+
+		//	ctx.rotate(Angle);
+		cnorm = map(mesure, -50, 0, 1, 0.1);
+		cnorm = mapLinearToLog(cnorm, -0.1, -1, 0.1, 1);
+		Angle = map(cnorm, -1, -0.1, -Math.PI / 4, 0); //angle
+
+		ctx.rotate(Angle);
+
+		// Graduation qui suit les cents de façon logarithmique
+		ctx.strokeStyle = "rgb(255, 0, 0)";
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.moveTo(0, -hA / 3 - 15);
+		ctx.lineTo(0, -hA / 3 - 30);
+		ctx.stroke();
+
+		mesure += 10;
+	}
+	ctx.restore();
+
+
+	ctx.save();
+	ctx.translate(wA / 2, hA - 85);
+
+	var mesure2 = -50;
+	var cnorm2;
+	var Angle2 = 0;
+	while (mesure2 < 40) {
+
+		//	ctx.rotate(Angle);
+		cnorm2 = map(mesure2, -50, 0, 1, 0.1);
+		cnorm2 = mapLinearToLog(cnorm2, -0.1, -1, 0.1, 1);
+		Angle2 = map(cnorm2, -1, -0.1, Math.PI / 4, 0); //angle
+
+		ctx.rotate(Angle2);
+
+		// Graduation qui suit les cents de façon logarithmique
+		ctx.strokeStyle = "rgb(255, 0, 0)";
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.moveTo(0, -hA / 3 - 15);
+		ctx.lineTo(0, -hA / 3 - 30);
+		ctx.stroke();
+
+		mesure2 += 10;
+	}
+	ctx.restore();
+}
+
 
 function angle_frequence(f) { // variation de l'angle en fonction de la fréquence émise
 	var note = noteFromPitch(f);
