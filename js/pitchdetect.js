@@ -90,6 +90,7 @@ window.onload = function () {
 	wA = document.getElementById("aiguille").offsetWidth;
 	hA = document.getElementById("aiguille").offsetHeight;
 	outputA = canvasaig.getContext('2d');
+	background(outputA);
 	inittrait(outputA, Angle);
 
 	//canvas diode
@@ -227,7 +228,9 @@ function updatePitch() {
 	var ac = autoCorrelate(buf, audioContext.sampleRate);
 
 	var newAngle = angle_frequence(ac); // variable qui changera en fonction de la fréquence
+	
 	outputA.clearRect(0, 0, wA, hA); // pour effacer l'aiguille quand elle bouge (animation)
+	background(outputA);
 	inittrait(outputA, newAngle);
 
 	outputD = canvasdio.getContext('2d');
