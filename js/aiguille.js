@@ -2,7 +2,7 @@ function inittrait(ctx, A) // A l'angle défini par angle_fréquence(f)
 {
 	ctx.save();
 	/*Modification afin de mettre l'aiguille a sa place*/
-	ctx.translate(wA / 2, hA -77);
+	ctx.translate(wA / 2, hA -10);
 	ctx.rotate(A);
 
 	ctx.strokeStyle = "rgb(70, 70, 70)";
@@ -18,7 +18,7 @@ function inittrait(ctx, A) // A l'angle défini par angle_fréquence(f)
 function background(ctx) {
 	ctx.save();
 	/*Modification afin de mettre une partie de l'arc de cercle à sa place*/
-	ctx.translate(wA / 2, hA - 77);
+	ctx.translate(wA / 2, hA - 10);
 
 	ctx.strokeStyle = "rgb(255, 0, 0)";
 	ctx.lineWidth = 2;
@@ -54,7 +54,7 @@ function background(ctx) {
 
 	ctx.save();
 	/*Modification afin de mettre une l'autre de l'arc de cercle à sa place*/
-	ctx.translate(wA / 2, hA - 77);
+	ctx.translate(wA / 2, hA - 10);
 
 	var mesure2 = -50;
 	var cnorm2;

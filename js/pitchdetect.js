@@ -70,6 +70,9 @@ var noteStrings = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "
 var MIN_SAMPLES = 0; // will be initialized when AudioContext is created.
 var GOOD_ENOUGH_CORRELATION = 0.9; // this is the "bar" for how close a correlation needs to be
 
+var gainSlider, gainNode;
+var hRect;
+
 //Lorsque la page web demarre, on invoque la fenêtre d'application
 window.onload = function () {
 	//On creer le contexte de son
@@ -99,6 +102,9 @@ window.onload = function () {
 	outputD = canvasdio.getContext('2d');
 	initdiiode(outputD);
 	//outputA = canvasaig.getContext('2d');
+
+	initGain(outputA);
+	gainSlider = document.querySelector('#gainSlider');
 
 	//Initialisation du Tuner
 
@@ -142,7 +148,19 @@ function toggleOscillator() {
 	analyser = audioContext.createAnalyser();
 	analyser.fftSize = 2048;
 	sourceNode.connect(analyser);
-	analyser.connect(audioContext.destination);
+
+	//On attribu un volume au son
+	gainNode=audioContext.createGain();
+	analyser.connect(gainNode);
+	gainNode.connect(audioContext.destination);
+	//On fait en sorte de le faire évoluer lorsqu'on manipule l'input range qui correspond au volume
+	gainSlider.oninput = function(evt){
+		gainNode.gain.value = evt.target.value;
+		hRect = (gainNode.gain.value*100)*2;
+	};
+
+	analyser.connect(gainNode);
+
 	sourceNode.start(0);
 	isPlaying = true;
 	//Susceptible d'être modifié si vous creez une nouvelle fonction canvas
@@ -235,6 +253,8 @@ function updatePitch() {
 
 	outputD = canvasdio.getContext('2d');
 	initdiiode(outputD, ac);
+
+	drawGain(outputA);
 
 	//S'il n'y a pas de son qui se joue
 	if (ac == -1) {
