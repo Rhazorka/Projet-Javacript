@@ -54,8 +54,8 @@ var detectorElem,
 	sliderFrequency;
 
 	// Séparation de l'aiguille et de la diode dans différents canvas	
-var	canvasaig,
-	outputA,
+//Supression de canvas de l'aiguille
+var	/*canvasaig,*/outputA,
 	Angle = 0; //initialisation de l'angle de l'aiguille
 
 var	canvasdio,
@@ -86,10 +86,11 @@ window.onload = function () {
 	sliderFrequency = document.getElementById("sliderFrequency");
 
 	//canvas aiguille
-	canvasaig = document.getElementById("aiguille");
-	wA = document.getElementById("aiguille").offsetWidth;
-	hA = document.getElementById("aiguille").offsetHeight;
-	outputA = canvasaig.getContext('2d');
+	//le canvas de l'aiguille a été envelé pour le mettre dans le canvas principale
+	canvasElem = document.getElementById("output");
+	wA = document.getElementById("output").offsetWidth;
+	hA = document.getElementById("output").offsetHeight;
+	outputA = canvasElem.getContext('2d');
 	background(outputA);
 	inittrait(outputA, Angle);
 
@@ -98,7 +99,6 @@ window.onload = function () {
 	outputD = canvasdio.getContext('2d');
 	initdiiode(outputD);
 	//outputA = canvasaig.getContext('2d');
-
 
 	//Initialisation du Tuner
 
@@ -275,4 +275,3 @@ function updatePitch() {
 		window.requestAnimationFrame = window.webkitRequestAnimationFrame;
 	rafID = window.requestAnimationFrame(updatePitch);
 }
-

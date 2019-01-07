@@ -29,16 +29,18 @@
 		
 		<!-- Partie interface du Tuner -->
 		<div id="detector" class="vague">
+			<!--Ajout d'un canvas pour la diiode-->
+			<canvas id="diiode" width="300" height=35></canvas>
 			<div class="pitch"><span id="pitch">--</span>Hz</div>
 			<div class="note"><span id="note">--</span></div>   
-			<canvas id="output" width=300 height=42></canvas>
+			<canvas id="output" width=300 height=160></canvas>
 			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents &#9837;</span><span id="sharp">cents &#9839;</span></div>
 		</div>
 		<p id="tips">Faire F12 (Inspecter) et regarder "Console" et "Sources", c'est parfois essentiel pour comprendre pourquoi le code ne marche pas ;)</p>
 		
-
+		<!--Suppression des canvas de l'aiguille et de la diiode afin de tout mettre dans le canvas principale 
 		<canvas id="aiguille" width=300 height=200></canvas>
-		<canvas id="diiode" width="300" height=200></canvas>
+		<canvas id="diiode" width="300" height=35></canvas>-->
 		<script src="js/pitchdetect.js"></script>
 		<script src="js/aiguille.js"></script>
 		<script src="js/diodes.js"></script>
