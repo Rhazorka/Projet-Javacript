@@ -2,7 +2,7 @@ function initdiiode(ctx) // ctx context du canvas des diiode
 {
 	ctx.fillStyle="rgb(70, 70, 70)";
 	ctx.beginPath();
-//Modification de la taille des cercles afin de pour les mettres a l'emplacement choisie	
+
   	ctx.arc(150, 20, 10, 0, 2 * Math.PI);
   	ctx.arc(75, 20, 10, 0, 2 * Math.PI);
   	ctx.arc(225, 20, 10, 0, 2 * Math.PI);
@@ -11,7 +11,7 @@ function initdiiode(ctx) // ctx context du canvas des diiode
 }
 
 function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et celle de la note reconnu 
-								  //et side contient une chaine de caractère pour savoir de quel côté allumé la diiode
+								  //et side contient une chaine de caractère qui va nous servir à savoir de quel côté allumé la diiode
 								  //flat: à gauche  sharp:à gauhche  "": au centre  
 {
 	ctx.save();
@@ -37,7 +37,7 @@ function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et
 		ctx.fillStyle="rgb(70, 70, 70)";
 	}
 	ctx.beginPath();
-	//Modification de la taille du cercle afin de pour le mettre a l'emplacement choisie
+	
 	ctx.arc(75, 20, 10, 0, 2 * Math.PI);
 	ctx.fill();
 	
@@ -61,11 +61,10 @@ function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et
 		ctx.fillStyle="rgb(70, 70, 70)";
 	}
 	ctx.beginPath();
-	//Modification de la taille du cercle afin de pour le mettre a l'emplacement choisie
 	ctx.arc(225, 20, 10, 0, 2 * Math.PI);
 	ctx.fill();
   	
-  	if(ecart <=5 && ecart >=-5)//ecart>=-1 || ecart<=1
+  	if(ecart <=5 && ecart >=-5)
   	{	
   		ctx.fillStyle="rgb(0, 230, 0)"
   	}
@@ -74,7 +73,6 @@ function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et
   		ctx.fillStyle="rgb(70, 70, 70)";
   	}
 	ctx.beginPath();
-	//Modification de la taille du cercle afin de pour le mettre a l'emplacement choisie
 	ctx.arc(150, 20, 10, 0, 2 * Math.PI);
 	ctx.fill();
   	ctx.restore();
