@@ -16,7 +16,7 @@ function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et
 {
 	ctx.save();
 	ctx.clearRect(0,0,300,200);
-	if(side=="flat")
+	if(side=="flat"&&ecart<=-5)
 	{
 		if(ecart>=-15)
 		{
@@ -41,7 +41,7 @@ function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et
 	ctx.arc(75, 20, 10, 0, 2 * Math.PI);
 	ctx.fill();
 	
-	if(side=="sharp")
+	if(side=="sharp"&&ecart>=5)
 	{
 		if(ecart<=15)
 		{
@@ -65,7 +65,7 @@ function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et
 	ctx.arc(225, 20, 10, 0, 2 * Math.PI);
 	ctx.fill();
   	
-  	if(ecart <=4 && ecart >=-4)//ecart>=-1 || ecart<=1
+  	if(ecart <=5 && ecart >=-5)//ecart>=-1 || ecart<=1
   	{	
   		ctx.fillStyle="rgb(0, 230, 0)"
   	}
