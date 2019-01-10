@@ -65,7 +65,7 @@ function Modifdio(ctx,ecart,side) //ecart = l'ecart entre la frequence du son et
 	ctx.arc(225, 20, 10, 0, 2 * Math.PI);
 	ctx.fill();
   	
-  	if(side=="")//ecart>=-1 || ecart<=1
+  	if(ecart <=4 && ecart >=-4)//ecart>=-1 || ecart<=1
   	{	
   		ctx.fillStyle="rgb(0, 230, 0)"
   	}
